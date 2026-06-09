@@ -1,0 +1,152 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Archivo Black", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-brand-red: var(--brand-red);
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-green: var(--brand-green);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+}
+
+:root {
+  --radius: 0px;
+  --paper: oklch(0.985 0.005 90);
+  --ink: oklch(0.15 0 0);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--ink);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--ink);
+
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: oklch(0.94 0.005 90);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.94 0.005 90);
+  --muted-foreground: oklch(0.45 0 0);
+  --accent: oklch(0.62 0.24 27);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.62 0.24 27);
+  --destructive-foreground: oklch(1 0 0);
+  --border: var(--ink);
+  --input: var(--ink);
+  --ring: var(--ink);
+
+  --brand-red: oklch(0.62 0.24 27);
+  --brand-yellow: oklch(0.88 0.19 95);
+  --brand-blue: oklch(0.55 0.2 250);
+  --brand-green: oklch(0.72 0.18 145);
+}
+
+.dark {
+  --background: oklch(0.15 0 0);
+  --foreground: var(--paper);
+  --card: oklch(0.2 0 0);
+  --card-foreground: var(--paper);
+  --border: var(--paper);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    background-image:
+      linear-gradient(to right, oklch(0 0 0 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(0 0 0 / 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+}
+
+@layer utilities {
+  .brutal-border {
+    border: 3px solid var(--ink);
+  }
+  @media (min-width: 640px) {
+    .brutal-border { border-width: 4px; }
+  }
+  .brutal-shadow {
+    box-shadow: 4px 4px 0 0 var(--ink);
+  }
+  @media (min-width: 640px) {
+    .brutal-shadow { box-shadow: 8px 8px 0 0 var(--ink); }
+  }
+  .brutal-shadow-lg {
+    box-shadow: 6px 6px 0 0 var(--ink);
+  }
+  @media (min-width: 640px) {
+    .brutal-shadow-lg { box-shadow: 12px 12px 0 0 var(--ink); }
+  }
+  .brutal-press {
+    transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  }
+  .brutal-press:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 0 var(--ink);
+  }
+  .brutal-hover-lift {
+    transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  }
+  .brutal-hover-lift:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0 0 var(--ink);
+  }
+  .dotted-bg {
+    background-image: radial-gradient(circle, var(--ink) 1px, transparent 1px);
+    background-size: 12px 12px;
+  }
+  .stripes-bg {
+    background-image: repeating-linear-gradient(
+      45deg,
+      var(--ink) 0,
+      var(--ink) 2px,
+      transparent 2px,
+      transparent 10px
+    );
+  }
+}
