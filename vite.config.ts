@@ -1,15 +1,22 @@
-// @#.dev/vite-tanstack-config already includes the following — do NOT add them manually
-// or the app will break with duplicate plugins:
-//   - tanstackStart, viteReact, tailwindcss, tsConfigPaths, nitro (build-only using cloudflare as a default target),
-//     componentTagger (dev-only), VITE_* env injection, @ path alias, React/TanStack dedupe,
-//     error logger plugins, and sandbox detection (port/host/strictPort).
-// You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tsconfigPaths from "vite-tsconfig-paths";
+import tailwind from "@tailwindcss/vite";
+import { resolve } from "path";
 
-// Minimal Vite config: keep defaults and allow adding TanStack-specific
-// behavior elsewhere. If you rely on a custom TanStack plugin package,
-// re-add it via your environment. This placeholder avoids an unresolved
-// import during development.
+// Minimal Vite config that mirrors the previously provided preset enough for a build.
+// Keeps React plugin, TS path resolution and Tailwind integration. We also add a
+// custom `tanstackStart` field so code reading vite.config.ts for that field still works.
 export default defineConfig({
-  // leave empty; the project uses framework-specific defaults elsewhere
+  plugins: [react(), tsconfigPaths(), tailwind()],
+  resolve: {
+    alias: {
+      // Shim Node async_hooks for browser build
+      "node:async_hooks": resolve(__dirname, "src/shims/node-async-hooks.ts"),
+    },
+  },
+  // Keep a tanstackStart field similar to the preset so server entry redirect remains available.
+  tanstackStart: {
+    server: { entry: "server" },
+  } as any,
 });
