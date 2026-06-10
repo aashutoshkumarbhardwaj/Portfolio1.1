@@ -1,4 +1,6 @@
-import process from "node:process";
+// `process` is available at runtime in Node environments. Declare it here to
+// appease TypeScript in dev environments where `@types/node` is not installed.
+declare const process: { env: { [k: string]: string | undefined } };
 
 // Server-only config. The .server.ts suffix prevents Vite from bundling
 // this file into the client — values here never reach the browser.

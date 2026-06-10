@@ -22,7 +22,7 @@ export const Route = createFileRoute("/contact")({
       "Contact Aashutosh Kumar Bhardwaj — AI, Backend & Data Engineer";
     const description =
       "Get in touch with Aashutosh Kumar Bhardwaj — AI, backend, and data engineer. Available for collaborations, contract work, and research. Email, GitHub, LinkedIn, and X / Twitter.";
-    const url = "https://snappy-heart-web.lovable.app/contact";
+    const url = "https://snappy-heart-web.#.app/contact";
     return {
       meta: [
         { title },
