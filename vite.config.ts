@@ -13,6 +13,8 @@ export default defineConfig({
     alias: {
       // Shim Node async_hooks for browser build
       "node:async_hooks": resolve(__dirname, "src/shims/node-async-hooks.ts"),
+      // Provide a client shim for TanStack Start entry used by hydrateStart
+      "#tanstack-start-entry": resolve(__dirname, "src/shims/tanstack-start-entry.ts"),
     },
   },
   // Keep a tanstackStart field similar to the preset so server entry redirect remains available.
