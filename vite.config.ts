@@ -7,7 +7,7 @@ import { resolve } from "path";
 // Minimal Vite config that mirrors the previously provided preset enough for a build.
 // Keeps React plugin, TS path resolution and Tailwind integration. We also add a
 // custom `tanstackStart` field so code reading vite.config.ts for that field still works.
-export default defineConfig({
+const config = defineConfig({
   plugins: [react(), tsconfigPaths(), tailwind()],
   resolve: {
     alias: {
@@ -17,8 +17,11 @@ export default defineConfig({
       "#tanstack-start-entry": resolve(__dirname, "src/shims/tanstack-start-entry.ts"),
     },
   },
-  // Keep a tanstackStart field similar to the preset so server entry redirect remains available.
-  tanstackStart: {
-    server: { entry: "server" },
-  } as any,
 });
+
+// Attach a runtime-only custom field (typed as any) so other tooling looking
+// for this key at runtime doesn't break. Keeping this off the typed config
+// avoids TypeScript complaints about unknown properties on Vite's config type.
+(config as any).tanstackStart = { server: { entry: "server" } };
+
+export default config as any;

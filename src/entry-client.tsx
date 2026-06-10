@@ -1,46 +1,38 @@
-import "./lib/error-capture";
-import { hydrateStart } from "@tanstack/react-start-client";
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { RouterProvider } from "@tanstack/react-router";
+import { SiteHeader } from "./components/portfolio/SiteHeader";
+import { Hero } from "./components/portfolio/Hero";
+import { OssAndAsk } from "./components/portfolio/OssAndAsk";
+import { SiteFooter } from "./components/portfolio/SiteFooter";
+import { getRouter } from "./router";
+import "./lib/error-capture";
 
-function renderFallback() {
-  const rootEl = document.getElementById("root");
-  if (!rootEl) return;
-  const root = createRoot(rootEl);
-  root.render(
-    React.createElement(
-      "div",
-      { style: { fontFamily: "Inter, system-ui, sans-serif", padding: 24 } },
-      React.createElement("h1", null, "PORTFOLIO"),
-      React.createElement("p", null, "Client hydration unavailable — running in client-only fallback mode."),
-      React.createElement(
-        "p",
-        null,
-        React.createElement("a", { href: "/", onClick: () => window.location.reload() }, "Reload")
-      )
+function App() {
+  return (
+    React.createElement(React.Fragment, null,
+      React.createElement(SiteHeader, null),
+      React.createElement("main", { id: "top", className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-10" },
+        React.createElement(Hero, null),
+        React.createElement(OssAndAsk, null),
+      ),
+      React.createElement(SiteFooter, null),
     )
   );
 }
 
-async function main() {
-  try {
-    // If the server injected the TanStack Start hydration marker, use hydrateStart.
-    // hydrateStart expects server-provided options; guard to avoid throwing when missing.
-    if (typeof window !== "undefined" && (window as any).$_TSR) {
-      await hydrateStart();
-      return;
-    }
-
-    // No server state found — render a safe client-only fallback to avoid runtime errors.
-    renderFallback();
-  } catch (err) {
-    console.error("Client hydration failed:", err);
-    try {
-      renderFallback();
-    } catch (e) {
-      console.error("Fallback render also failed:", e);
-    }
-  }
+const rootEl = document.getElementById("root");
+if (rootEl) {
+  const root = createRoot(rootEl);
+  const router = getRouter();
+  root.render(React.createElement(RouterProvider, { router }, React.createElement(App, null)));
+} else {
+  // If for some reason #root doesn't exist, mount to body.
+  const el = document.createElement("div");
+  el.id = "root";
+  document.body.appendChild(el);
+  const root = createRoot(el);
+  const router = getRouter();
+  root.render(React.createElement(RouterProvider, { router }, React.createElement(App, null)));
 }
 
-void main();
